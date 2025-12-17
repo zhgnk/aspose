@@ -18,13 +18,13 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>25.9</version>
+            <version>25.12</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-cells</artifactId>
-            <version>25.9</version>
+            <version>25.12</version>
         </dependency>
         <dependency>
             <groupId>org.javassist</groupId>
