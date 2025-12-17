@@ -1,11 +1,8 @@
 import com.aspose.cells.Workbook;
-import com.aspose.words.License;
-import com.aspose.words.PdfCompliance;
-import com.aspose.words.PdfSaveOptions;
+import com.aspose.words.*;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
-import org.w3c.dom.Document;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,79 +24,61 @@ import java.util.Date;
 public class AsposeTest {
 
     public static void main(String[] args) throws Exception {
-        // registerWord259();
-        // String path = "F:\\workplace\\aspose\\1.docx";
-        // Document doc = new Document(path);  // 替换为你的输入文件路径
-        // modifyExcelJar();
-        // registerExcel259();
+        registerWord2512();
+        String path = "F:\\workplace\\aspose\\1.docx";
+        Document doc = new Document(path);  // 替换为你的输入文件路径
+
+        // 可以设置各种 PDF 选项，例如：
+        PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
+        pdfSaveOptions.setCompliance(PdfCompliance.PDF_17);
+        pdfSaveOptions.setUseHighQualityRendering(true); // 高质量渲染
+        pdfSaveOptions.setEmbedFullFonts(false);
+        // pdfSaveOptions.setUseCoreFonts(true); // 使用基本字体减少体积
+        pdfSaveOptions.setAdditionalTextPositioning(true); // 精确文本定位
+        pdfSaveOptions.setUseBookFoldPrintingSettings(true);
+        pdfSaveOptions.setExportDocumentStructure(true); // 导出文档结构
+        pdfSaveOptions.setPreserveFormFields(true); // 保留表单字段
+
+        // 设置PDF输出的大纲（书签）选项
+        OutlineOptions outlineOptions = pdfSaveOptions.getOutlineOptions();
+        // 1. 不自动创建缺失的大纲级别
+        outlineOptions.setCreateMissingOutlineLevels(false);
+        // 2. 设置默认书签的大纲级别为1（顶级）
+        outlineOptions.setDefaultBookmarksOutlineLevel(1);
+        // 3. 设置默认不展开任何大纲级别（0表示全部折叠）
+        outlineOptions.setExpandedOutlineLevels(0);
+        // 4. 设置标题大纲级别为0（不将标题显示为大纲）
+        outlineOptions.setHeadingsOutlineLevels(0);
+        // 将文档保存为 PDF
+        doc.save("1.pdf", pdfSaveOptions);
+
+
         InputStream is = new FileInputStream("license.xml");
         com.aspose.cells.License license1 = new com.aspose.cells.License();
         license1.setLicense(is);
-        String path = "F:\\workplace\\aspose\\1.xlsx";
-        Workbook doc = new Workbook(path);  // 替换为你的输入文件路径
-
-        // // 创建 PDF 保存选项
-        // PdfSaveOptions options = new PdfSaveOptions();
-        // // 可以设置各种 PDF 选项，例如：
-        // options.setCompliance(PdfCompliance.PDF_20); // 设置 PDF 版本兼容性
-        // // 将文档保存为 PDF
-        // doc.save("1.pdf", options);  // 替换为你想要的输出文件路径
-        // System.out.println("文档转换成功！");
+        String path1 = "F:\\workplace\\aspose\\1.xlsx";
+        Workbook doc1 = new Workbook(path);  // 替换为你的输入文件路径
         // 创建 PDF 保存选项
         com.aspose.cells.PdfSaveOptions options = new com.aspose.cells.PdfSaveOptions();
         // 可以设置各种 PDF 选项，例如：
-        options.setCompliance(PdfCompliance.PDF_20);// 设置 PDF 版本兼容性
+        options.setCompliance(PdfCompliance.PDF_17);// 设置 PDF 版本兼容性
+        options.setOutputBlankPageWhenNothingToPrint(false);// 不打印空白页
         // 将文档保存为 PDF
-        doc.save("1.pdf", options);  // 替换为你想要的输出文件路径
+        doc1.save("1.pdf", options);  // 替换为你想要的输出文件路径
 
+        System.out.println("文档转换成功！");
     }
 
-    private static void registerExcel259() {
-        try {
-            Class<?> u65Class = Class.forName("com.aspose.cells.u65");
-            Constructor<?> constructors = u65Class.getDeclaredConstructors()[0];
-            constructors.setAccessible(true);
-            Object instance = constructors.newInstance();
-            Field b1 = u65Class.getDeclaredField("b");
-            b1.setAccessible(true);
-            b1.set(instance, "错误");
-            Field c = u65Class.getDeclaredField("c");
-            c.setAccessible(true);
-            Date date = new Date(Long.MAX_VALUE);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-            String formattedDate = formatter.format(date);
-            c.set(instance, formattedDate);
-            // Class<?> f20Class = Class.forName("com.aspose.cells.f20");
-            // Constructor<?> f20Classconstructors = f20Class.getDeclaredConstructors()[0];
-            // f20Classconstructors.setAccessible(true);
-            // Object f20instance = f20Classconstructors.newInstance(new Workbook("F:\\workplace\\aspose\\1.xlsx"));
-            // Field b = f20Class.getDeclaredField("b");
-            // b.setAccessible(true);
-            // b.set(f20instance, 1);
-            // Field c1 = f20Class.getDeclaredField("c");
-            // c1.setAccessible(true);
-            // c1.set(f20instance, 1);
-            // Field k = f20Class.getDeclaredField("k");
-            // k.setAccessible(true);
-            // k.set(f20instance, 1);
-            // Field l = f20Class.getDeclaredField("l");
-            // l.setAccessible(true);
-            // l.set(f20instance, 1);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 修改cells.jar包里面的校验
      */
     public static void modifyExcelJar() {
         try {
-            //获取指定的class文件对象
-            CtClass u65Class = ClassPool.getDefault().getCtClass("com.aspose.cells.u65");
+            //获取指定的class文件对象  License的 new 对象类
+            CtClass x6bClass = ClassPool.getDefault().getCtClass("com.aspose.cells.x6b");
             //从class对象中解析获取所有方法
-            CtMethod[] methodA = u65Class.getDeclaredMethods();
+            CtMethod[] methodA = x6bClass.getDeclaredMethods();
             for (CtMethod ctMethod : methodA) {
                 //获取方法获取参数类型
                 CtClass[] ps = ctMethod.getParameterTypes();
@@ -107,11 +86,11 @@ public class AsposeTest {
                 if (ps.length == 1 && ctMethod.getName().equals("a") && ps[0].getName().equals("org.w3c.dom.Document")) {
                     System.out.println("ps[0].getName==" + ps[0].getName());
                     //替换指定方法的方法体
-                    ctMethod.setBody("{ a = $0; com.aspose.cells.f20.g(-1); com.aspose.cells.k1t.a(); return;}");
+                    ctMethod.setBody("{ a = $0; com.aspose.cells.y6ab.g(-1); com.aspose.cells.u80.a(); return;}");
                 }
             }
             //这一步就是将破译完的代码放在桌面上
-            u65Class.writeFile("C:\\Users\\uolds\\Desktop\\");
+            x6bClass.writeFile("C:\\Users\\uolds\\Desktop\\");
 
         } catch (Exception e) {
             System.out.println("错误==" + e);
@@ -121,12 +100,13 @@ public class AsposeTest {
     /**
      * aspose-words:jdk17:25.9 版本
      */
-    public static void registerWord259() {
+    public static void registerWord2512() {
         try {
-            Class<?> zzWkUClass = Class.forName("com.aspose.words.zzWkU");
-            Class<?> zz6LClass = Class.forName("com.aspose.words.zz6L");
-            Method method = zz6LClass.getDeclaredMethod(
-                    "zzW07",
+            // License中的 new对象的第一个关键方法的返回对象
+            Class<?> zzWmmClass = Class.forName("com.aspose.words.zzWmm");
+            Class<?> zzMfClass = Class.forName("com.aspose.words.zzMf");
+            Method method = zzMfClass.getDeclaredMethod(
+                    "zznj",
                     ArrayList.class,
                     String.class,
                     String.class
@@ -134,27 +114,29 @@ public class AsposeTest {
             method.setAccessible(true);
             ArrayList<String> var0 = new ArrayList<>(Collections.singletonList("success"));
             Object outInstance = method.invoke(null, var0, null, null);
-            Field zzX4E = zzWkUClass.getDeclaredField("zzX4E");
-            zzX4E.setAccessible(true);
-            zzX4E.set(outInstance, 1);
-            Field zzVY7 = zzWkUClass.getDeclaredField("zzVY7");
-            zzVY7.setAccessible(true);
-            zzVY7.set(outInstance, 1);
+            Field zzXFX = zzWmmClass.getDeclaredField("zzXFX");
+            zzXFX.setAccessible(true);
+            zzXFX.set(outInstance, 1);
+            Field zzXow = zzWmmClass.getDeclaredField("zzXow");
+            zzXow.setAccessible(true);
+            zzXow.set(outInstance, 1);
 
-            Class<?> zzX4bClass = Class.forName("com.aspose.words.zzX4b");
-            Field zzsI = zzX4bClass.getDeclaredField("zzsI");
-            zzsI.setAccessible(true);
+            // License中的 new zz1V
+            Class<?> zz1VClass = Class.forName("com.aspose.words.zz1V");
+            Field zzVRB = zz1VClass.getDeclaredField("zzVRB");
+            zzVRB.setAccessible(true);
             ArrayList<Object> innerInstance = new ArrayList<>();
             innerInstance.add(outInstance);
-            zzsI.set(null, innerInstance);
+            zzVRB.set(null, innerInstance);
 
-            Class<?> zzZgNClass = Class.forName("com.aspose.words.zzZgN");
-            Field zzWtT = zzZgNClass.getDeclaredField("zzWtT");
-            zzWtT.setAccessible(true);
-            zzWtT.set(null, 128);
-            Field zzYbl = zzZgNClass.getDeclaredField("zzYbl");
-            zzYbl.setAccessible(true);
-            zzYbl.set(null, false);
+            // License中的 new对象方法的关键方法中的判断条件大于0
+            Class<?> zz3NClass = Class.forName("com.aspose.words.zz3N");
+            Field zzXl7 = zz3NClass.getDeclaredField("zzXl7");
+            zzXl7.setAccessible(true);
+            zzXl7.set(null, 128);
+            Field zzxQ = zz3NClass.getDeclaredField("zzxQ");
+            zzxQ.setAccessible(true);
+            zzxQ.set(null, false);
 
         } catch (Exception e) {
             e.printStackTrace();
